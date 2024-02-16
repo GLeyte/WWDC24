@@ -11,37 +11,12 @@ struct ContentView: View {
     
     var body: some View {
         
-        VStack {
-            NavigationLink(value: Views.parametrics) {
-                Text("Parametrics")
-                    .foregroundStyle(.black)
-                    .padding()
-                    .background {
-                        RoundedRectangle(cornerRadius: 16)
-                            .frame(maxWidth: .infinity)
-                            .foregroundStyle(.white)
-                    }
-            }
-            
-            NavigationLink(value: Views.forms) {
-                
-                Text("Forms")
-                    .foregroundStyle(.black)
-                    .padding()
-                    .background {
-                        RoundedRectangle(cornerRadius: 16)
-                            .frame(maxWidth: .infinity)
-                            .foregroundStyle(.white)
-                    }
-            }
-        }
+        Onboarding1()
         .ignoresSafeArea()
+        .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.black)
         .navigationDestination(for: Views.self) { value in
             switch value {
-            case .forms:
-                FormsView()
             case .parametrics:
                 ParametricCurvesView()
             case .curve1:
@@ -52,10 +27,16 @@ struct ContentView: View {
                 Curve2View()
             case .curve2info:
                 Curve2Info()
-            case .circle:
-                CircleView()
-            case .triangle:
-                TriangleView()
+            case .onboarding2:
+                Onboarding2()
+            case .onboarding3:
+                Onboarding3()
+            case .example:
+                Example()
+            case .curve3:
+                Curve3View()
+            case .curve3info:
+                Curve3Info()
             }
         }
         

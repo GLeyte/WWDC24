@@ -1,20 +1,21 @@
 //
-//  Curve2.swift
+//  Curve3.swift
 //  GeometryArt
 //
-//  Created by Gabriel Leite on 26/01/24.
+//  Created by Gabriel Leite on 08/02/24.
 //
 
 import SwiftUI
 
-struct Curve2: View {
+struct Curve3: View {
     
     @Binding var a: CGFloat
     @Binding var b: CGFloat
-    @Binding var n: Double
-    @Binding var p: Int
-    @Binding var q: Int
-    @Binding var r: CGFloat
+    
+    @Binding var l: CGFloat
+    @Binding var h: CGFloat
+    
+    var limit: CGFloat = 2 * CGFloat.pi
     @Binding var precision: Double
     
     @Binding var colorInit: Color
@@ -49,8 +50,10 @@ struct Curve2: View {
                         gradient: Gradient(colors: [colorInit, colorEnd]),
                         center: .center,
                         startRadius: 0,
-                        endRadius: width/3
+                        endRadius: width/3.5
                     ))
+
+            
         }
         .aspectRatio(1, contentMode: .fit)
     }
@@ -63,13 +66,13 @@ struct Curve2: View {
         }
         
         let lmin:Double = 0
-        let lmax = 10 * Double.pi
-        let delta =  width/2
+        let lmax = limit
+        let delta =  width / 2
 
         var points = [CGPoint]()
         for t in stride(from: lmin, to: lmax, by: precision) {
             
-            var (x, y) = curve(r, t)
+            var (x, y) = curve(delta/4, t)
 
             x = max(min(x,delta),-delta)
             y = max(min(y,delta),-delta)
@@ -81,30 +84,10 @@ struct Curve2: View {
     }
     
     func curve(_ r: CGFloat, _ t: Double) -> (x:CGFloat, y:CGFloat) {
+        let x = r * (l * cos(t+b) - cos(a*t) * sin(t+b))
+        let y = r * (h * sin(t+b) - sin(a * (t+b)))
         
-        let coss = cos(n * (t - b))
-        let seno = sin(n * (t - b))
-        
-        let cosP = coss >= 0 ? pow(coss, Double(p)/10) : pow(-1, Double(p)) * pow(-coss, Double(p)/10)
-        let sinQ = seno >= 0 ? pow(seno,  Double(q)/10) : pow(-1, Double(q)) * pow(-seno,  Double(q)/10)
-        
-        let x = r * (2.5 * b + cosP) * cos(t + a)
-        let y = r * (2.5 * b + sinQ) * sin(t + a)
-                
-        return (x,y)
+        return (x, y)
     }
     
-}
-
-#Preview {
-    Curve2(a: .constant(-10),
-           b: .constant(-0.33),
-           n: .constant(-2.5),
-           p: .constant(32),
-           q: .constant(44),
-           r: .constant(200),
-           precision: .constant(0.03),
-           colorInit: .constant(.cyan),
-           colorEnd: .constant(.pink))
-    .background(.black)
 }

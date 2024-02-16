@@ -4,17 +4,15 @@ import SwiftUI
 struct MyApp: App {
     
     @StateObject private var stackPath = PathType()
-    @Environment(\.colorScheme) var colorScheme
-    
+    let accentColor = Color(red: 57/255, green: 255/255, blue: 20/255)
+        
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $stackPath.path) {
-                ContentView()
+                ParametricCurvesView()
             }
             .environmentObject(stackPath)
-            .tint(colorScheme == .dark ? .white : .black)
+            .tint(accentColor)
         }
     }
 }
-
-

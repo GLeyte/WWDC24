@@ -22,13 +22,13 @@ struct Curve2View: View {
     @State private var q: Int = 44
     @State private var r: CGFloat = UIScreen.main.bounds.width / 2
     
-    @State private var colorInit: Color = .cyan
-    @State private var colorEnd: Color = .pink
+    @State private var colorInit: Color = .green
+    @State private var colorEnd: Color = .red
     
     @State private var showingInfo = false
         
     @State var directionRightA = true
-    @State var playA = false
+    @State var playA = true
     
     @State var directionRightB = true
     @State var playB = false
@@ -49,7 +49,7 @@ struct Curve2View: View {
     var body: some View {
         VStack(alignment: .center) {
             
-            Curve2(a: $a, b: $b, n: $n, p: $p, q: $q, r: $r, colorInit: $colorInit, colorEnd: $colorEnd)
+            Curve2(a: $a, b: $b, n: $n, p: $p, q: $q, r: $r, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd)
                         
             HStack {
                 returnView("a", a, 1)
@@ -149,6 +149,7 @@ struct Curve2View: View {
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear {
+            b = -0.33
             r = abs(screenWidth / (2.5 * b) / 3)
         }
         .onReceive(timerData.timer) { _ in
@@ -302,7 +303,7 @@ struct Curve2Info: View {
                     .parsingMode(.all)
                     .font(.footnote)
                 
-                LaTeX("n \\longrightarrow \\text{Influence the } \\textbf{number of curve segments}")
+                LaTeX("n \\longrightarrow \\text{Influences the } \\textbf{number of curve segments}")
                     .parsingMode(.all)
                     .font(.footnote)
                 

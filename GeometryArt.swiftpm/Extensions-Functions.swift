@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import LaTeXSwiftUI
+import SwiftUI
 
 func fromCenter(x: CGFloat, y: CGFloat, center: CGPoint) -> CGPoint {
     
@@ -28,3 +30,11 @@ func to2Digits (_ n: Double, digits: Int) -> String {
     return formPercent.string(from: NSNumber(value: n)) ?? "Nada"
 }
 
+func latexText(_ text: String) -> some View {
+    if #available(iOS 16.1, *) {
+         return Text(text)
+            .fontDesign(.serif)
+    } else {
+        return Text(text)
+    }
+}

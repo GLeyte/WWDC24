@@ -1,23 +1,24 @@
 //
-//  Curve1View.swift
+//  Curva3View.swift
 //  GeometryArt
 //
-//  Created by Gabriel Leite on 26/01/24.
+//  Created by Gabriel Leite on 08/02/24.
 //
 
 import SwiftUI
 import LaTeXSwiftUI
 
-struct Curve1View: View {
+struct Curve3View: View {
     
     @Environment(\.colorScheme) var colorScheme
     
     let screenWidth = UIScreen.main.bounds.width*0.9
-    let limit:CGFloat = 10
+    let limit = 2.0
     
-    @State private var a : CGFloat = 0
-    @State private var b: CGFloat = -0.25
-    @State private var velocidade: CGFloat = 1
+    @State private var a : CGFloat = 30
+    @State private var b: CGFloat = 0
+    @State private var w: CGFloat = 1
+    @State private var h: CGFloat = 2
     
     @State private var colorInit: Color = .green
     @State private var colorEnd: Color = .red
@@ -25,28 +26,36 @@ struct Curve1View: View {
     @State private var showingInfo = false
     
     @State var directionRightA = true
-    @State var playA = true
+    @State var playA = false
     
     @State var directionRightB = true
     @State var playB = false
+    
+    @State var directionRightW = true
+    @State var playW = true
+    
+    @State var directionRightH = true
+    @State var playH = false
     
     @StateObject private var timerData = TimerData()
     
     var body: some View {
         VStack(spacing: 16) {
             
-            Curve1(a: $a, b: $b, colorInit: $colorInit, colorEnd: $colorEnd, precision: .constant(0.01))
+            Curve3(a: $a, b: $b, l: $w, h: $h, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd)
             
             HStack {
-                returnView("a", a, 2)
-                returnView("b", b, 1)
+                returnView("a", a, 1)
+                returnView("b", b, 2)
+                returnView("w", w, 1)
+                returnView("h", h, 1)
             }
             
             // Change A
             HStack {
                 LaTeX("$a$")
                                 
-                Slider(value: $a, in: 0...limit)
+                Slider(value: $a, in: 0...(30))
                     .tint(colorScheme == .dark ? .white : .black)
                 
                 PlayButton(variavel: $playA)
@@ -57,33 +66,47 @@ struct Curve1View: View {
             HStack {
                 LaTeX("$b$")
                    
-                Slider(value: $b, in: 0...limit)
+                Slider(value: $b, in: 0...1)
                     .tint(colorScheme == .dark ? .white : .black)
                 
                 PlayButton(variavel: $playB)
                 
             }
             
+            // Change l
             HStack {
-                LaTeX("\\text{Top color:}")
+                LaTeX("$l$")
+                   
+                Slider(value: $w, in: -limit...limit)
+                    .tint(colorScheme == .dark ? .white : .black)
+                
+                PlayButton(variavel: $playW)
+                
+            }
+            
+            // Change h
+            HStack {
+                LaTeX("$h$")
+                   
+                Slider(value: $h, in: -limit...limit)
+                    .tint(colorScheme == .dark ? .white : .black)
+                
+                PlayButton(variavel: $playH)
+                
+            }
+            
+            HStack {
+                LaTeX("\\text{Center color:}")
                     .parsingMode(.all)
                 ColorPicker("", selection: $colorInit)
                     .labelsHidden()
             }
             
             HStack {
-                LaTeX("\\text{Bottom color:}")
+                LaTeX("\\text{Side color:}")
                     .parsingMode(.all)
                 ColorPicker("", selection: $colorEnd)
                     .labelsHidden()
-            }
-            
-            // Change Velocidade
-            VStack {
-                LaTeX("$\\text{Speed}$")
-                                
-                Slider(value: $velocidade, in: 0.25...3)
-                    .tint(colorScheme == .dark ? .white : .black)
             }
             
         }
@@ -96,7 +119,7 @@ struct Curve1View: View {
                     Image(systemName: "info.circle.fill")
                 }
                 .sheet(isPresented: $showingInfo, content: {
-                    Curve1Info()
+                    Curve3Info()
                         .presentationDetents([.medium])
                 })
 
@@ -109,12 +132,12 @@ struct Curve1View: View {
             if playA {
                 
                 if directionRightA {
-                    a += 0.001 * velocidade
-                    if a > limit {
+                    a += 0.04
+                    if a > 30 {
                         directionRightA = false
                     }
                 } else {
-                    a -= 0.001 * velocidade
+                    a -= 0.04
                     if a <= 0 {
                         directionRightA = true
                     }
@@ -125,14 +148,44 @@ struct Curve1View: View {
             if playB {
 
                 if directionRightB {
-                    b += 0.01 * velocidade
-                    if b > limit {
+                    b += 0.001
+                    if b > 1 {
                         directionRightB = false
                     }
                 } else {
-                    b -= 0.01 * velocidade
+                    b -= 0.001
                     if b <= 0 {
                         directionRightB = true
+                    }
+                }
+            }
+            
+            if playW {
+
+                if directionRightW {
+                    w += 0.01
+                    if w > limit {
+                        directionRightW = false
+                    }
+                } else {
+                    w -= 0.01
+                    if w <= -limit {
+                        directionRightW = true
+                    }
+                }
+            }
+            
+            if playH {
+
+                if directionRightH {
+                    h += 0.01
+                    if h > limit {
+                        directionRightH = false
+                    }
+                } else {
+                    h -= 0.01
+                    if h <= -limit {
+                        directionRightH = true
                     }
                 }
             }
@@ -155,7 +208,7 @@ struct Curve1View: View {
     }
 }
 
-struct Curve1Info: View {
+struct Curve3Info: View {
     
     var body: some View {
         VStack(spacing: 16) {
@@ -166,11 +219,11 @@ struct Curve1Info: View {
             
             VStack {
                 
-                LaTeX("$x(t) = r \\cdot sin(at + b)$")
+                LaTeX("$x(t) = w\\cdot cos(t+b) -cos(at)\\cdot sin(t+b)$")
                     .parsingMode(.onlyEquations)
                     .font(.subheadline)
                 
-                LaTeX("$y(t) = r \\cdot sin(t)$")
+                LaTeX("$y(t) = h\\cdot sin(t+b) - sin(a\\cdot(t+b))$")
                     .parsingMode(.onlyEquations)
                     .font(.subheadline)
                 
@@ -182,21 +235,30 @@ struct Curve1Info: View {
             
             VStack(alignment: .leading) {
                 
-                LaTeX("r \\longrightarrow \\text{Direct relationship with the } \\textbf{value of x and y}")
+                LaTeX("a \\: \\longrightarrow \\text{Influences the } \\textbf{number of curve segments}")
                     .parsingMode(.all)
                     .font(.footnote)
                 
-                LaTeX("a \\longrightarrow \\text{Changes the } \\textbf{shape of the curve}")
+                LaTeX("b\\: \\longrightarrow \\textbf{Rotates the curve}")
                     .parsingMode(.all)
                     .font(.footnote)
                 
-                LaTeX("b \\longrightarrow \\text{Makes the curve } \\textbf{move in time}")
+                LaTeX("w \\longrightarrow \\text{Changes the } \\textbf{curve's width}")
                     .parsingMode(.all)
                     .font(.footnote)
-            
+                
+                LaTeX("h\\: \\longrightarrow \\text{Changes the } \\textbf{curve's height}")
+                    .parsingMode(.all)
+                    .font(.footnote)
+                
             }
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
+}
+
+
+#Preview {
+    Curve3Info()
 }

@@ -14,6 +14,7 @@ struct Curve1: View {
     @Binding var b: CGFloat
     @Binding var colorInit: Color
     @Binding var colorEnd: Color
+    @Binding var precision: Double
     
     var body: some View {
         GeometryReader { geometry in
@@ -21,7 +22,7 @@ struct Curve1: View {
             let center = CGPoint(x:width/2, y:width/2)
             
             Path { path in
-                let points = cartesianCoords(width: width, center: center, iPrecision: 0.01)
+                let points = cartesianCoords(width: width, center: center, iPrecision: precision)
                 
                 var k = 0
                 
@@ -42,8 +43,8 @@ struct Curve1: View {
             .stroke(lineWidth: 1)
             .fill(LinearGradient(
                         gradient: Gradient(colors: [colorInit, colorEnd]),
-                        startPoint: .leading,
-                        endPoint: .trailing
+                        startPoint: .top,
+                        endPoint: .bottom
                     ))
 
             

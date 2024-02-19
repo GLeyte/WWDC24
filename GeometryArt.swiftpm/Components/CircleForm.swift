@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CircleForm: View {
+struct C: View {
     
     @Binding var valor: CGFloat
     @Binding var division: Int

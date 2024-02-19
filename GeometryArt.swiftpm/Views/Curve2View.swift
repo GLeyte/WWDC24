@@ -47,23 +47,19 @@ struct Curve2View: View {
     @StateObject private var timerData = TimerData()
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(spacing: 24) {
                   
-            ZStack {
+            Curve2(a: $a, b: $b, n: $n, p: $p, q: $q, r: $r, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd)
+            
+            HStack(spacing:16) {
                 
-                Curve2(a: $a, b: $b, n: $n, p: $p, q: $q, r: $r, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd)
-                
-                HStack(spacing:16) {
-                    
-                    ColorPicker("Side color", selection: $colorEnd, supportsOpacity: true)
-                        .labelsHidden()
-                    ColorPicker("Center color", selection: $colorInit, supportsOpacity: true)
-                        .labelsHidden()
-                    
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                ColorPicker("Side color", selection: $colorEnd, supportsOpacity: true)
+                    .labelsHidden()
+                ColorPicker("Center color", selection: $colorInit, supportsOpacity: true)
+                    .labelsHidden()
                 
             }
+            .frame(maxWidth: .infinity, alignment: .bottomLeading)
             
             HStack {
                 returnView("a", a, 1)
@@ -72,61 +68,64 @@ struct Curve2View: View {
                 returnView("p", CGFloat(p)/10, 1)
                 returnView("q", CGFloat(q)/10, 1)
             }
- 
-            // Change A
-            HStack {
-                LaTeX("$a$")
-                                
-                Slider(value: $a, in: -limit...limit)
+            
+            VStack(spacing: 16) {
+                
+                // Change A
+                HStack {
+                    LaTeX("$a$")
+                    
+                    Slider(value: $a, in: -limit...limit)
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playA)
+                    
+                }
+                
+                // Change B
+                HStack {
+                    LaTeX("$b$")
+                    
+                    Slider(value: $b, in: -(limit/10)...0)
+                        .tint(colorScheme == .dark ? .white : .black)
+                    PlayButton(variavel: $playB)
+                    
+                }
+                
+                // Change N
+                HStack {
+                    LaTeX("$n$")
+                    
+                    Slider(value: $n, in: -(limit/2)...(limit/2))
+                        .tint(colorScheme == .dark ? .white : .black)
+                    PlayButton(variavel: $playN)
+                    
+                }
+                
+                // Change P
+                HStack {
+                    LaTeX("$p$")
+                    
+                    Slider(value: Binding<Double>(
+                        get: { Double(self.p) },
+                        set: { self.p = Int($0) }
+                    ), in: 10...(10 * limit), step: 2)
                     .tint(colorScheme == .dark ? .white : .black)
+                    PlayButton(variavel: $playP)
+                    
+                }
                 
-                PlayButton(variavel: $playA)
-                
-            }
-            
-            // Change B
-            HStack {
-                LaTeX("$b$")
-
-                Slider(value: $b, in: -(limit/10)...0)
+                // Change Q
+                HStack {
+                    LaTeX("$q$")
+                    Slider(value: Binding<Double>(
+                        get: { Double(self.q) },
+                        set: { self.q = Int($0) }
+                    ), in: 10...(10 * limit), step: 2)
                     .tint(colorScheme == .dark ? .white : .black)
-                PlayButton(variavel: $playB)
-                
-            }
-            
-            // Change N
-            HStack {
-                LaTeX("$n$")
-                                
-                Slider(value: $n, in: -(limit/2)...(limit/2))
-                    .tint(colorScheme == .dark ? .white : .black)
-                PlayButton(variavel: $playN)
-                
-            }
-            
-            // Change P
-            HStack {
-                LaTeX("$p$")
-                
-                Slider(value: Binding<Double>(
-                    get: { Double(self.p) },
-                    set: { self.p = Int($0) }
-                ), in: 10...(10 * limit), step: 2)
-                .tint(colorScheme == .dark ? .white : .black)
-                PlayButton(variavel: $playP)
-                
-            }
-            
-            // Change Q
-            HStack {
-                LaTeX("$q$")
-                Slider(value: Binding<Double>(
-                    get: { Double(self.q) },
-                    set: { self.q = Int($0) }
-                ), in: 10...(10 * limit), step: 2)
-                .tint(colorScheme == .dark ? .white : .black)
-                PlayButton(variavel: $playQ)
-                
+                    PlayButton(variavel: $playQ)
+                    
+                }
             }
             
             

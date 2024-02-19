@@ -32,64 +32,50 @@ struct Curve1View: View {
     @StateObject private var timerData = TimerData()
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 24) {
             
-            ZStack {
+            Curve1(a: $a, b: $b, colorInit: $colorInit, colorEnd: $colorEnd, precision: .constant(0.01))
+            
+            HStack(spacing:16) {
                 
-                Curve1(a: $a, b: $b, colorInit: $colorInit, colorEnd: $colorEnd, precision: .constant(0.01))
+                ColorPicker("Top color", selection: $colorInit, supportsOpacity: true)
+                    .labelsHidden()
                 
-                HStack(spacing:16) {
-                    
-                    ColorPicker("Top color", selection: $colorInit, supportsOpacity: true)
-                        .labelsHidden()
-                    
-                    ColorPicker("Bottom color", selection: $colorEnd, supportsOpacity: true)
-                        .labelsHidden()
-                    
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                ColorPicker("Bottom color", selection: $colorEnd, supportsOpacity: true)
+                    .labelsHidden()
                 
             }
+            .frame(maxWidth: .infinity, alignment: .bottomLeading)
             
             HStack {
                 returnView("a", a, 2)
                 returnView("b", b, 1)
             }
             
-            // Change A
-            HStack {
-                LaTeX("$a$")
-                                
-                Slider(value: $a, in: 0...limit)
-                    .tint(colorScheme == .dark ? .white : .black)
+            VStack(spacing: 16) {
                 
-                PlayButton(variavel: $playA)
+                // Change A
+                HStack {
+                    LaTeX("$a$")
+                    
+                    Slider(value: $a, in: 0...limit)
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playA)
+                    
+                }
+                
+                // Change B
+                HStack {
+                    LaTeX("$b$")
+                    
+                    Slider(value: $b, in: 0...limit)
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playB)
+                    
+                }
 
-            }
-            
-            // Change B
-            HStack {
-                LaTeX("$b$")
-                   
-                Slider(value: $b, in: 0...limit)
-                    .tint(colorScheme == .dark ? .white : .black)
-                
-                PlayButton(variavel: $playB)
-                
-            }
-            
-            HStack {
-                LaTeX("\\text{Top color:}")
-                    .parsingMode(.all)
-                ColorPicker("", selection: $colorInit)
-                    .labelsHidden()
-            }
-            
-            HStack {
-                LaTeX("\\text{Bottom color:}")
-                    .parsingMode(.all)
-                ColorPicker("", selection: $colorEnd)
-                    .labelsHidden()
             }
             
         }

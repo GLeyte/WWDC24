@@ -42,37 +42,28 @@ struct Curve4View: View {
     @StateObject private var timerData = TimerData()
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 24) {
             
-            ZStack {
+            Curve4(a: $a, b: $b, alpha: $alpha, beta: $beta, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd, showEnd: $showEnd)
+            
+            HStack(spacing:16) {
+                ColorPicker("Side color", selection: $colorEnd, supportsOpacity: true)
+                    .labelsHidden()
+                ColorPicker("Center color", selection: $colorInit, supportsOpacity: true)
+                    .labelsHidden()
                 
-                Curve4(a: $a, b: $b, alpha: $alpha, beta: $beta, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd, showEnd: $showEnd)
+                Spacer()
                 
-                HStack{
-                    
-                    HStack(spacing:16) {
-                        ColorPicker("Side color", selection: $colorEnd, supportsOpacity: true)
-                            .labelsHidden()
-                        ColorPicker("Center color", selection: $colorInit, supportsOpacity: true)
-                            .labelsHidden()
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        showEnd.toggle()
-                    } label: {
-//                        Image(systemName: showEnd ?  "circle.circle.fill" : "circle.circle")
-                        Image(systemName: showEnd ?  "point.topleft.filled.down.to.point.bottomright.curvepath" : "point.topleft.down.to.point.bottomright.curvepath")
-                            .scaleEffect(1.5)
-                            .rotation3DEffect(.degrees(180), axis: (0,1,0))
-                            .tint(colorScheme == .dark ? .white : .black)
-                    }
-                                        
+                Button {
+                    showEnd.toggle()
+                } label: {
+                    Image(systemName: showEnd ?  "point.topleft.filled.down.to.point.bottomright.curvepath" : "point.topleft.down.to.point.bottomright.curvepath")
+                        .scaleEffect(1.5)
+                        .rotation3DEffect(.degrees(180), axis: (0,1,0))
+                        .tint(colorScheme == .dark ? .white : .black)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                
             }
+            .frame(maxWidth: .infinity, alignment: .bottom)
             
             HStack {
                 returnView("a", a, 1)
@@ -81,48 +72,51 @@ struct Curve4View: View {
                 returnView("\\beta", beta, 2)
             }
             
-            // Change A
-            HStack {
-                LaTeX("$a$")
-                                
-                Slider(value: $a, in: -limit...limit)
-                    .tint(colorScheme == .dark ? .white : .black)
+            VStack(spacing: 16) {
                 
-                PlayButton(variavel: $playA)
-
-            }
-            
-            // Change B
-            HStack {
-                LaTeX("$b$")
-                   
-                Slider(value: $b, in: -limit...limit)
-                    .tint(colorScheme == .dark ? .white : .black)
+                // Change A
+                HStack {
+                    LaTeX("$a$")
+                    
+                    Slider(value: $a, in: -limit...limit)
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playA)
+                    
+                }
                 
-                PlayButton(variavel: $playB)
+                // Change B
+                HStack {
+                    LaTeX("$b$")
+                    
+                    Slider(value: $b, in: -limit...limit)
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playB)
+                    
+                }
                 
-            }
-            
-            // Change alpha
-            HStack {
-                LaTeX("$\\alpha$")
-                   
-                Slider(value: $alpha, in: (-limit/10)...(limit/10))
-                    .tint(colorScheme == .dark ? .white : .black)
+                // Change alpha
+                HStack {
+                    LaTeX("$\\alpha$")
+                    
+                    Slider(value: $alpha, in: (-limit/10)...(limit/10))
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playALPHA)
+                    
+                }
                 
-                PlayButton(variavel: $playALPHA)
-                
-            }
-            
-            // Change h
-            HStack {
-                LaTeX("$\\beta$")
-                   
-                Slider(value: $beta, in: (-limit/10)...(limit/10))
-                    .tint(colorScheme == .dark ? .white : .black)
-                
-                PlayButton(variavel: $playBETA)
-                
+                // Change h
+                HStack {
+                    LaTeX("$\\beta$")
+                    
+                    Slider(value: $beta, in: (-limit/10)...(limit/10))
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playBETA)
+                    
+                }
             }
             
         }
@@ -272,4 +266,8 @@ struct Curve4Info: View {
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
+}
+
+#Preview {
+    Curve4View()
 }

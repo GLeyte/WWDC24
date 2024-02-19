@@ -10,6 +10,9 @@ import LaTeXSwiftUI
 
 
 struct Example: View {
+    
+    @State var animation = false
+    @EnvironmentObject private var stackPath: PathType
         
     var body: some View {
         
@@ -76,13 +79,15 @@ struct Example: View {
                 )
             }
             
-            CircleExample(t: 60)
+            CircleExample(t: 60, playT: $animation)
                 .frame(maxWidth: .infinity)
             
             Spacer()
             
-            NavigationLink(value: Views.parametrics) {
-                
+            Button {
+                stackPath.path.append(Views.parametrics)
+                animation = false
+            } label: {
                 latexText("Now it's time to play!")
                     .padding()
                     .foregroundStyle(.black)
@@ -109,7 +114,7 @@ struct CircleExample: View {
     @State var t: CGFloat
     
     @State var directionRightT = true
-    @State var playT = false
+    @Binding var playT:Bool
     
     @StateObject private var timerData = TimerData()
     

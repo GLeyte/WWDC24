@@ -40,24 +40,20 @@ struct Curve3View: View {
     @StateObject private var timerData = TimerData()
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 24) {
             
             
-            ZStack {
+            Curve3(a: $a, b: $b, l: $w, h: $h, precision: .constant(0.005), colorInit: $colorInit, colorEnd: $colorEnd)
+            
+            HStack(spacing:16) {
                 
-                Curve3(a: $a, b: $b, l: $w, h: $h, precision: .constant(0.005), colorInit: $colorInit, colorEnd: $colorEnd)
-                
-                HStack(spacing:16) {
-                    
-                    ColorPicker("Side color", selection: $colorEnd, supportsOpacity: true)
-                        .labelsHidden()
-                    ColorPicker("Center color", selection: $colorInit, supportsOpacity: true)
-                        .labelsHidden()
-                    
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                ColorPicker("Side color", selection: $colorEnd, supportsOpacity: true)
+                    .labelsHidden()
+                ColorPicker("Center color", selection: $colorInit, supportsOpacity: true)
+                    .labelsHidden()
                 
             }
+            .frame(maxWidth: .infinity, alignment: .bottomLeading)
             
             HStack {
                 returnView("a", a, 1)
@@ -66,48 +62,51 @@ struct Curve3View: View {
                 returnView("h", h, 1)
             }
             
-            // Change A
-            HStack {
-                LaTeX("$a$")
+            VStack(spacing: 16) {
                 
-                Slider(value: $a, in: 0...(30))
-                    .tint(colorScheme == .dark ? .white : .black)
+                // Change A
+                HStack {
+                    LaTeX("$a$")
+                    
+                    Slider(value: $a, in: 0...(30))
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playA)
+                    
+                }
                 
-                PlayButton(variavel: $playA)
+                // Change B
+                HStack {
+                    LaTeX("$b$")
+                    
+                    Slider(value: $b, in: 0...1)
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playB)
+                    
+                }
                 
-            }
-            
-            // Change B
-            HStack {
-                LaTeX("$b$")
+                // Change l
+                HStack {
+                    LaTeX("$l$")
+                    
+                    Slider(value: $w, in: -limit...limit)
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playW)
+                    
+                }
                 
-                Slider(value: $b, in: 0...1)
-                    .tint(colorScheme == .dark ? .white : .black)
-                
-                PlayButton(variavel: $playB)
-                
-            }
-            
-            // Change l
-            HStack {
-                LaTeX("$l$")
-                
-                Slider(value: $w, in: -limit...limit)
-                    .tint(colorScheme == .dark ? .white : .black)
-                
-                PlayButton(variavel: $playW)
-                
-            }
-            
-            // Change h
-            HStack {
-                LaTeX("$h$")
-                
-                Slider(value: $h, in: -limit...limit)
-                    .tint(colorScheme == .dark ? .white : .black)
-                
-                PlayButton(variavel: $playH)
-                
+                // Change h
+                HStack {
+                    LaTeX("$h$")
+                    
+                    Slider(value: $h, in: -limit...limit)
+                        .tint(colorScheme == .dark ? .white : .black)
+                    
+                    PlayButton(variavel: $playH)
+                    
+                }
             }
             
         }

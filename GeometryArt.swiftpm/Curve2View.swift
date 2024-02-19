@@ -48,9 +48,23 @@ struct Curve2View: View {
     
     var body: some View {
         VStack(alignment: .center) {
+                  
+            ZStack {
+                
+                Curve2(a: $a, b: $b, n: $n, p: $p, q: $q, r: $r, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd)
+                
+                HStack(spacing:16) {
+                    
+                    ColorPicker("Side color", selection: $colorEnd, supportsOpacity: true)
+                        .labelsHidden()
+                    ColorPicker("Center color", selection: $colorInit, supportsOpacity: true)
+                        .labelsHidden()
+                    
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                
+            }
             
-            Curve2(a: $a, b: $b, n: $n, p: $p, q: $q, r: $r, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd)
-                        
             HStack {
                 returnView("a", a, 1)
                 returnView("b", b, 2)
@@ -113,20 +127,6 @@ struct Curve2View: View {
                 .tint(colorScheme == .dark ? .white : .black)
                 PlayButton(variavel: $playQ)
                 
-            }
-            
-            HStack {
-                LaTeX("\\text{Center color:}")
-                    .parsingMode(.all)
-                ColorPicker("Center color", selection: $colorInit)
-                    .labelsHidden()
-            }
-            
-            HStack {
-                LaTeX("\\text{Side color:}")
-                    .parsingMode(.all)
-                ColorPicker("Side color", selection: $colorEnd)
-                    .labelsHidden()
             }
             
             

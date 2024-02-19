@@ -80,7 +80,6 @@ struct CardView: View {
                                precision: .constant(0.03),
                                colorInit: .constant(Color.accentColor),
                                colorEnd: .constant(Color.accentColor),
-                               showCircle: .constant(false),
                                showEnd: .constant(false))
                         .padding(24)
 

@@ -19,7 +19,6 @@ struct Curve4: View {
     @Binding var colorInit: Color
     @Binding var colorEnd: Color
     
-    @Binding var showCircle: Bool
     @Binding var showEnd: Bool
     
     var body: some View {
@@ -27,11 +26,6 @@ struct Curve4: View {
             let width = min(geometry.size.width, geometry.size.height)
             let center = CGPoint(x:width/2, y:width/2)
             
-            if showCircle {
-                Circle()
-                    .stroke(.gray, style: StrokeStyle(lineWidth: 2, dash: [20,10]))
-                    .frame(width: width, height: width)
-            }
             
             let points = cartesianCoords(width: width, center: center, iPrecision: precision)
             

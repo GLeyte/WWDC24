@@ -17,7 +17,6 @@ struct Curve1View: View {
     
     @State private var a : CGFloat = 0
     @State private var b: CGFloat = -0.25
-    @State private var velocidade: CGFloat = 1
     
     @State private var colorInit: Color = Color.example2
     @State private var colorEnd: Color = Color.example3
@@ -35,7 +34,22 @@ struct Curve1View: View {
     var body: some View {
         VStack(spacing: 16) {
             
-            Curve1(a: $a, b: $b, colorInit: $colorInit, colorEnd: $colorEnd, precision: .constant(0.01))
+            ZStack {
+                
+                Curve1(a: $a, b: $b, colorInit: $colorInit, colorEnd: $colorEnd, precision: .constant(0.01))
+                
+                HStack(spacing:16) {
+                    
+                    ColorPicker("Top color", selection: $colorInit, supportsOpacity: true)
+                        .labelsHidden()
+                    
+                    ColorPicker("Bottom color", selection: $colorEnd, supportsOpacity: true)
+                        .labelsHidden()
+                    
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                
+            }
             
             HStack {
                 returnView("a", a, 2)
@@ -78,14 +92,6 @@ struct Curve1View: View {
                     .labelsHidden()
             }
             
-            // Change Velocidade
-            VStack {
-                LaTeX("$\\text{Speed}$")
-                                
-                Slider(value: $velocidade, in: 0.25...3)
-                    .tint(colorScheme == .dark ? .white : .black)
-            }
-            
         }
         .toolbar {
             ToolbarItem {
@@ -109,12 +115,12 @@ struct Curve1View: View {
             if playA {
                 
                 if directionRightA {
-                    a += 0.001 * velocidade
+                    a += 0.001
                     if a > limit {
                         directionRightA = false
                     }
                 } else {
-                    a -= 0.001 * velocidade
+                    a -= 0.001
                     if a <= 0 {
                         directionRightA = true
                     }
@@ -125,12 +131,12 @@ struct Curve1View: View {
             if playB {
 
                 if directionRightB {
-                    b += 0.01 * velocidade
+                    b += 0.01
                     if b > limit {
                         directionRightB = false
                     }
                 } else {
-                    b -= 0.01 * velocidade
+                    b -= 0.01
                     if b <= 0 {
                         directionRightB = true
                     }

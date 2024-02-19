@@ -19,12 +19,10 @@ struct Curve4View: View {
     @State private var b: CGFloat = 1
     @State private var alpha: CGFloat = 1
     @State private var beta: CGFloat = 1
-    @State var velocidade:CGFloat = 1.0
     
     @State private var colorInit: Color = Color.example2
     @State private var colorEnd: Color = Color.example3
     
-    @State private var showCircle = false
     @State private var showEnd = false
     
     @State private var showingInfo = false
@@ -48,18 +46,30 @@ struct Curve4View: View {
             
             ZStack {
                 
-                Curve4(a: $a, b: $b, alpha: $alpha, beta: $beta, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd, showCircle: $showCircle, showEnd: $showEnd)
+                Curve4(a: $a, b: $b, alpha: $alpha, beta: $beta, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd, showEnd: $showEnd)
                 
                 HStack{
                     
-                    PlayButton(variavel: $showCircle)
+                    HStack(spacing:16) {
+                        ColorPicker("Side color", selection: $colorEnd, supportsOpacity: true)
+                            .labelsHidden()
+                        ColorPicker("Center color", selection: $colorInit, supportsOpacity: true)
+                            .labelsHidden()
+                    }
                     
                     Spacer()
                     
-                    PlayButton(variavel: $showEnd)
-                    
+                    Button {
+                        showEnd.toggle()
+                    } label: {
+//                        Image(systemName: showEnd ?  "circle.circle.fill" : "circle.circle")
+                        Image(systemName: showEnd ?  "point.bottomleft.forward.to.point.topright.filled.scurvepath" : "point.bottomleft.forward.to.point.topright.scurvepath")
+                            .scaleEffect(1.5)
+                            .tint(colorScheme == .dark ? .white : .black)
+                    }
+                                        
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                 
             }
             
@@ -114,28 +124,6 @@ struct Curve4View: View {
                 
             }
             
-            HStack {
-                LaTeX("\\text{Center color:}")
-                    .parsingMode(.all)
-                ColorPicker("", selection: $colorInit)
-                    .labelsHidden()
-            }
-            
-            HStack {
-                LaTeX("\\text{Side color:}")
-                    .parsingMode(.all)
-                ColorPicker("", selection: $colorEnd)
-                    .labelsHidden()
-            }
-            
-            // Change Velocidade
-            HStack {
-                LaTeX("$\\text{Speed}$")
-                                
-                Slider(value: $velocidade, in: 0.25...1)
-                    .tint(colorScheme == .dark ? .white : .black)
-            }
-            
         }
         .toolbar {
             ToolbarItem {
@@ -159,12 +147,12 @@ struct Curve4View: View {
             if playA {
                 
                 if directionRightA {
-                    a += 0.01 * velocidade
+                    a += 0.01
                     if a > limit {
                         directionRightA = false
                     }
                 } else {
-                    a -= 0.01 * velocidade
+                    a -= 0.01
                     if a <= -limit {
                         directionRightA = true
                     }
@@ -175,12 +163,12 @@ struct Curve4View: View {
             if playB {
 
                 if directionRightB {
-                    b += 0.01 * velocidade
+                    b += 0.01
                     if b > limit {
                         directionRightB = false
                     }
                 } else {
-                    b -= 0.01 * velocidade
+                    b -= 0.01
                     if b <= -limit {
                         directionRightB = true
                     }
@@ -190,12 +178,12 @@ struct Curve4View: View {
             if playALPHA {
 
                 if directionRightALPHA {
-                    alpha += 0.001 * velocidade
+                    alpha += 0.001
                     if alpha > limit/10 {
                         directionRightALPHA = false
                     }
                 } else {
-                    alpha -= 0.001 * velocidade
+                    alpha -= 0.001
                     if alpha <= -limit/10 {
                         directionRightALPHA = true
                     }
@@ -205,12 +193,12 @@ struct Curve4View: View {
             if playBETA {
 
                 if directionRightBETA {
-                    beta += 0.001 * velocidade
+                    beta += 0.001
                     if beta > limit/10 {
                         directionRightBETA = false
                     }
                 } else {
-                    beta -= 0.001 * velocidade
+                    beta -= 0.001
                     if beta <= -limit/10 {
                         directionRightBETA = true
                     }

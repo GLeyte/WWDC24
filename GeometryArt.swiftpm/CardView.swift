@@ -12,8 +12,6 @@ struct CardView: View {
     let curve: Curves
     let limit:CGFloat = CGFloat.pi * 2
     
-    let accentColor = Color(red: 57/255, green: 255/255, blue: 20/255)
-    
     @Environment(\.colorScheme) var colorScheme
     @StateObject private var timerData = TimerData()
     
@@ -32,155 +30,116 @@ struct CardView: View {
     
     var body: some View {
         
-        let color1:Color = .white
-        let color2:Color = colorScheme == .dark ? .black : .white
-        
-        GeometryReader { geometry in
-                        
-            let width = min(geometry.size.width, geometry.size.height)
-            
-            ZStack {
+            GeometryReader { geometry in
+                            
+                let width = min(geometry.size.width, geometry.size.height)
                 
-                switch curve {
-                case .curve1:
-                    Curve1(a: $animation,
-                           b: .constant(-0.25),
-                           colorInit: .constant(accentColor),
-                           colorEnd: .constant(accentColor),
-                           precision: .constant(0.03))
-                    .padding(12)
-                    .background{
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(color1, lineWidth: 2)
-                            .frame(width: width + 16, height: width + 16)
-                    }
-                case .curve2:
-                    Curve2(a: .constant(a),
-                           b: .constant(-0.33),
-                           n: .constant(-2.5),
-                           p: .constant(32),
-                           q: .constant(44),
-                           r: .constant(width/2), 
-                           precision: .constant(0.03),
-                           colorInit: .constant(color1),
-                           colorEnd: .constant(color1))
-                    .background{
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(color1, lineWidth: 2)
-                            .frame(width: width + 16, height: width + 16)
-                    }
-                case .curve3:
-                    Curve3(a: .constant(30),
-                           b: .constant(0),
-                           l: .constant(l),
-                           h: .constant(2),
-                           precision: .constant(0.01),
-                           colorInit: .constant(color1),
-                           colorEnd: .constant(color1))
-                    .background{
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(accentColor, lineWidth: 2)
-                            .frame(width: width + 16, height: width + 16)
-                    }
-                }
-                
-                
-                VStack {
-                    
-                    Spacer()
+                VStack(spacing:0) {
                     
                     switch curve {
                     case .curve1:
+                        Curve1(a: $animation,
+                               b: .constant(-0.25),
+                               colorInit: .constant(Color.accentColor),
+                               colorEnd: .constant(Color.accentColor),
+                               precision: .constant(0.03))
+                        .padding(24)
                         
-                        VStack(alignment:.leading) {
-                            latexText("Slinky")
-                                .padding(8)
-                                .foregroundStyle(color2)
-                                .font(.title3)
-                                .frame(maxWidth: .infinity, alignment: .bottom)
-                                .background(color1)
-                                .clipShape(
-                                    .rect(
-                                        bottomLeadingRadius: 16,
-                                        bottomTrailingRadius: 16
-                                    )
-                                )
-                            
-                        }.offset(y: 12.0)
+                        bottomText(text: "Slinky")
                         
                     case .curve2:
-                        VStack(alignment:.leading) {
-                            latexText("Scrambled diamond")
-                                .padding(8)
-                                .foregroundStyle(color1)
-                                .font(.title3)
-                                .frame(maxWidth: .infinity, alignment: .bottom)
-                                .background(color1)
-                                .clipShape(
-                                    .rect(
-                                        bottomLeadingRadius: 16,
-                                        bottomTrailingRadius: 16
-                                    )
-                                )
-                            
-                        }.offset(y: 12.0)
+                        Curve2(a: .constant(a),
+                               b: .constant(-0.33),
+                               n: .constant(-2.5),
+                               p: .constant(32),
+                               q: .constant(44),
+                               r: .constant(width/2.5),
+                               precision: .constant(0.03),
+                               colorInit: .constant(Color.accentColor),
+                               colorEnd: .constant(Color.accentColor))
+                        .padding(24)
+                        
+                        bottomText(text: "Scrambled diamond")
+
                     case .curve3:
-                        VStack(alignment:.leading) {
-                            latexText("Curva 3")
-                                .padding(8)
-                                .foregroundStyle(color2)
-                                .font(.title3)
-                                .frame(maxWidth: .infinity, alignment: .bottom)
-                                .background(accentColor)
-                                .clipShape(
-                                    .rect(
-                                        bottomLeadingRadius: 16,
-                                        bottomTrailingRadius: 16
-                                    )
-                                )
-                            
-                        }.offset(y: 12.0)
+                        Curve3(a: .constant(30),
+                               b: .constant(0),
+                               l: .constant(l),
+                               h: .constant(2),
+                               precision: .constant(0.009),
+                               colorInit: .constant(Color.accentColor),
+                               colorEnd: .constant(Color.accentColor))
+
+                        bottomText(text: "Illusion torus")
+                        
+                    case .curve4:
+                        Curve4(a: .constant(5.1),
+                               b: .constant(l),
+                               alpha: .constant(1),
+                               beta: .constant(1),
+                               precision: .constant(0.03),
+                               colorInit: .constant(Color.accentColor),
+                               colorEnd: .constant(Color.accentColor),
+                               showCircle: .constant(false),
+                               showEnd: .constant(false))
+                        .padding(24)
+
+                        bottomText(text: "Magic Flower")
                     }
                     
                 }
-                .frame(minWidth: width + 16, maxWidth: width + 16, maxHeight: width)
-            }
-            .frame(maxWidth: .infinity)
-            .onReceive(timerData.timer) { _ in
-                
-                var velocidade:CGFloat = 1
-                
-                switch curve {
-                case .curve1:
-                    velocidade = 0.15
-                case .curve2:
-                    velocidade = 0.5
-                case .curve3:
-                    velocidade = 2
-                }
-                
-                if hasAnimation {
+                .frame(maxWidth: .infinity)
+                .onReceive(timerData.timer) { _ in
                     
-                    if directionRight {
-                        animation += 0.01 * velocidade
-                        if animation > limit {
-                            directionRight = false
-                        }
-                    } else {
-                        animation -= 0.01 * velocidade
-                        if animation <= 0 {
-                            directionRight = true
+                    var velocidade:CGFloat = 1
+                    
+                    switch curve {
+                    case .curve1:
+                        velocidade = 0.15
+                    case .curve2:
+                        velocidade = 0.5
+                    case .curve3:
+                        velocidade = 2
+                    case .curve4:
+                        velocidade = 1
+                    }
+                    
+                    if hasAnimation {
+                        
+                        if directionRight {
+                            animation += 0.01 * velocidade
+                            if animation > limit {
+                                directionRight = false
+                            }
+                        } else {
+                            animation -= 0.01 * velocidade
+                            if animation <= 0 {
+                                directionRight = true
+                            }
                         }
                     }
+                    
                 }
-                
             }
+            .background{
+                RoundedRectangle(cornerRadius: 16)
+                    .foregroundStyle(Color.secondary)
+            }
+    }
+    
+    func bottomText(text: String) -> some View {
+        VStack(alignment:.leading) {
+            latexText(text)
+                .padding(8)
+                .foregroundStyle(Color.accentColor)
+                .font(.title3)
+            
         }
     }
 }
 
 enum Curves{
-    case curve1, curve2, curve3
+    case curve1, curve2, curve3, curve4
 }
 
 #Preview {

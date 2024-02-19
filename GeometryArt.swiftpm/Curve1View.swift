@@ -19,8 +19,8 @@ struct Curve1View: View {
     @State private var b: CGFloat = -0.25
     @State private var velocidade: CGFloat = 1
     
-    @State private var colorInit: Color = .green
-    @State private var colorEnd: Color = .red
+    @State private var colorInit: Color = Color.example2
+    @State private var colorEnd: Color = Color.example3
     
     @State private var showingInfo = false
     
@@ -180,7 +180,7 @@ struct Curve1Info: View {
                 .parsingMode(.all)
                 .frame(maxWidth: .infinity,alignment: .leading)
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
                 
                 LaTeX("r \\longrightarrow \\text{Direct relationship with the } \\textbf{value of x and y}")
                     .parsingMode(.all)

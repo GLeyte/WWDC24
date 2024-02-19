@@ -40,7 +40,7 @@ struct Curve1: View {
                     }
                 }
             }
-            .stroke(lineWidth: 1)
+            .stroke(lineWidth: 2)
             .fill(LinearGradient(
                         gradient: Gradient(colors: [colorInit, colorEnd]),
                         startPoint: .top,

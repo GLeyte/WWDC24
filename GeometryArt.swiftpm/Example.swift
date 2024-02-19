@@ -41,7 +41,7 @@ struct Example: View {
                 .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 25.0)
-                        .stroke(.indigo, lineWidth: 2)
+                        .stroke(Color.example2, lineWidth: 2)
                 )
                 
                 
@@ -72,7 +72,7 @@ struct Example: View {
                 .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 25.0)
-                        .stroke(.red, lineWidth: 2)
+                        .stroke(Color.example3, lineWidth: 2)
                 )
             }
             
@@ -136,30 +136,30 @@ struct CircleExample: View {
                 //Circle
                 Circle()
                     .stroke(lineWidth: 2)
-                    .foregroundStyle(.indigo)
+                    .foregroundStyle(Color.example2)
                     .frame(width: width, height: width)
                 
                 // Angulo
                 Path { path in
                     path.addArc(center: center, radius: r/6, startAngle: Angle(degrees: 0), endAngle: Angle(degrees: Double(-t)), clockwise: true)
                 }
-                .stroke(.orange, lineWidth: 2)
+                .stroke(Color.example1, lineWidth: 2)
                 
                 // Angulo
                 Path { path in
                     path.addArc(center: center, radius: r, startAngle: Angle(degrees: 0), endAngle: Angle(degrees: Double(-t)), clockwise: true)
                 }
-                .stroke(.red, lineWidth: 2)
+                .stroke(Color.example3, lineWidth: 2)
                 
                 // Raio
                 Path { path in
                     path.move(to: center)
                     path.addLine(to: xyPosition(angulo: t, r: r, center: center))
                 }
-                .stroke(.red, lineWidth: 2)
+                .stroke(Color.example3, lineWidth: 2)
                 
                 Circle()
-                    .fill(.red)
+                    .fill(Color.example3)
                     .frame(width: 8, height: 8)
                     .position(xyPosition(angulo: t, r: r, center: center))
                 
@@ -170,7 +170,7 @@ struct CircleExample: View {
                 
                 LaTeX("$\\alpha = $ \( Int(t))$^{\\circ}$")
                     .id(t)
-                    .position(CGPoint(x: center.x + 60, y: center.y - 30))
+                    .position(CGPoint(x: center.x + 55, y: center.y - 30))
                 
             } // ZStack
         } // GeometryReader

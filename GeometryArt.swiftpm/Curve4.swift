@@ -1,33 +1,41 @@
 //
-//  Curve3.swift
+//  Curve4.swift
 //  GeometryArt
 //
-//  Created by Gabriel Leite on 08/02/24.
+//  Created by Gabriel Leite on 17/02/24.
 //
 
 import SwiftUI
 
-struct Curve3: View {
-    
+struct Curve4: View {
+        
     @Binding var a: CGFloat
     @Binding var b: CGFloat
+    @Binding var alpha: CGFloat
+    @Binding var beta: CGFloat
     
-    @Binding var l: CGFloat
-    @Binding var h: CGFloat
-    
-    var limit: CGFloat = 2 * CGFloat.pi
     @Binding var precision: Double
     
     @Binding var colorInit: Color
     @Binding var colorEnd: Color
+    
+    @Binding var showCircle: Bool
+    @Binding var showEnd: Bool
     
     var body: some View {
         GeometryReader { geometry in
             let width = min(geometry.size.width, geometry.size.height)
             let center = CGPoint(x:width/2, y:width/2)
             
+            if showCircle {
+                Circle()
+                    .stroke(.gray, style: StrokeStyle(lineWidth: 2, dash: [20,10]))
+                    .frame(width: width, height: width)
+            }
+            
+            let points = cartesianCoords(width: width, center: center, iPrecision: precision)
+            
             Path { path in
-                let points = cartesianCoords(width: width, center: center, iPrecision: precision)
                 
                 var k = 0
                 
@@ -45,14 +53,19 @@ struct Curve3: View {
                     }
                 }
             }
-            .stroke(lineWidth: 1)
+            .stroke(lineWidth: 2)
             .fill(RadialGradient(
                         gradient: Gradient(colors: [colorInit, colorEnd]),
                         center: .center,
                         startRadius: 0,
-                        endRadius: width/3
+                        endRadius: width/2
                     ))
-
+            
+            if showEnd {
+                Circle()
+                    .frame(width: 12, height: 12)
+                    .position(points.last!)
+            }
             
         }
         .aspectRatio(1, contentMode: .fit)
@@ -66,13 +79,13 @@ struct Curve3: View {
         }
         
         let lmin:Double = 0
-        let lmax = limit
-        let delta =  width / 2
+        let lmax = 3 * Double.pi
+        let delta =  width/2
 
         var points = [CGPoint]()
         for t in stride(from: lmin, to: lmax, by: precision) {
             
-            var (x, y) = curve(delta/4, t)
+            var (x, y) = curve(delta, t)
 
             x = max(min(x,delta),-delta)
             y = max(min(y,delta),-delta)
@@ -84,10 +97,10 @@ struct Curve3: View {
     }
     
     func curve(_ r: CGFloat, _ t: Double) -> (x:CGFloat, y:CGFloat) {
-        let x = r * (l * cos(t+b) - cos(a*t) * sin(t+b))
-        let y = r * (h * sin(t+b) - sin(a * (t+b)))
-        
-        return (x, y)
+        let x = r * (sin(alpha * a * t + b) * cos(t + b))
+        let y = r * (sin(t + b) * cos(beta * a * t))
+                        
+        return (x,y)
     }
     
 }

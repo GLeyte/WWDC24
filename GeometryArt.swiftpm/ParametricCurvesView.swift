@@ -31,71 +31,78 @@ struct ParametricCurvesView: View {
                 
                 ScrollView {
                     
-                        VStack {
-                            
-                            Button {
-                                stackPath.path.append(Views.curve1)
-                                animation = false
-                            } label: {
-                                CardView(curve: .curve1, hasAnimation: $animation)
-                                    .frame(height: width * 0.7)
-                                    .padding()
-                            }
-                            
-                            Button {
-                                stackPath.path.append(Views.curve2)
-                                animation = false
-                            } label: {
-                                CardView(curve: .curve2, hasAnimation: $animation)
-                                    .frame(height: width * 0.7)
-                                    .padding()
-                            }
-                            
-                            Button {
-                                stackPath.path.append(Views.curve3)
-                                animation = false
-                            } label: {
-                                CardView(curve: .curve3, hasAnimation: $animation)
-                                    .frame(height: width * 0.7)
-                                    .padding()
-                            }
-                            
-                        }
-                    }
-            }
-                
+                    VStack(spacing:24) {
                         
-//            Spacer()
-//            Spacer()
-//            
-//            // TABVIEW
-//            TabView(selection: $selectedPage) {
-//                Button {
-//                    stackPath.path.append(Views.curve1)
-//                    animation = false
-//                } label: {
-//                    CardView(curve: .curve1, hasAnimation: $animation)
-//                        .padding()
-//                }.tag(0)
-//                
-//                Button {
-//                    stackPath.path.append(Views.curve2)
-//                    animation = false
-//                } label: {
-//                    CardView(curve: .curve2, hasAnimation: $animation)
-//                        .padding()
-//                }.tag(1)
-//                
-//                Button {
-//                    stackPath.path.append(Views.curve3)
-//                    animation = false
-//                } label: {
-//                    CardView(curve: .curve3, hasAnimation: $animation)
-//                        .padding()
-//                }.tag(2)
-//            }
-//            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-//            
+                        
+                        Button {
+                            stackPath.path.append(Views.curve4)
+                            animation = false
+                        } label: {
+                            CardView(curve: .curve4, hasAnimation: $animation)
+                                .frame(height: width * 0.7)
+                        }
+                        
+                        Button {
+                            stackPath.path.append(Views.curve2)
+                            animation = false
+                        } label: {
+                            CardView(curve: .curve2, hasAnimation: $animation)
+                                .frame(height: width * 0.7)
+                        }
+                        
+                        Button {
+                            stackPath.path.append(Views.curve1)
+                            animation = false
+                        } label: {
+                            CardView(curve: .curve1, hasAnimation: $animation)
+                                .frame(height: width * 0.7)
+                        }
+                        
+                        Button {
+                            stackPath.path.append(Views.curve3)
+                            animation = false
+                        } label: {
+                            CardView(curve: .curve3, hasAnimation: $animation)
+                                .frame(height: width * 0.7)
+                        }
+                        
+                        
+                    }
+                }
+            }
+            
+            
+            //            Spacer()
+            //            Spacer()
+            //
+            //            // TABVIEW
+            //            TabView(selection: $selectedPage) {
+            //                Button {
+            //                    stackPath.path.append(Views.curve1)
+            //                    animation = false
+            //                } label: {
+            //                    CardView(curve: .curve1, hasAnimation: $animation)
+            //                        .padding()
+            //                }.tag(0)
+            //
+            //                Button {
+            //                    stackPath.path.append(Views.curve2)
+            //                    animation = false
+            //                } label: {
+            //                    CardView(curve: .curve2, hasAnimation: $animation)
+            //                        .padding()
+            //                }.tag(1)
+            //
+            //                Button {
+            //                    stackPath.path.append(Views.curve3)
+            //                    animation = false
+            //                } label: {
+            //                    CardView(curve: .curve3, hasAnimation: $animation)
+            //                        .padding()
+            //                }.tag(2)
+            //            }
+            //            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+            //
             
         }
         .padding()

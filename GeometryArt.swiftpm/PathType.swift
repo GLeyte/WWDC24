@@ -15,6 +15,6 @@ class PathType: ObservableObject {
 }
 
 enum Views {
-    case parametrics, curve1, curve1info, curve2, curve2info, curve3, curve3info
+    case parametrics, curve1, curve2, curve3, curve4
     case onboarding2, onboarding3, example
 }

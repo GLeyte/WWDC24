@@ -38,3 +38,14 @@ func latexText(_ text: String) -> some View {
         return Text(text)
     }
 }
+
+extension Color {
+    
+    static let accentColor = Color(red: 57/255, green: 255/255, blue: 20/255)
+    static let secondary = Color(red: 29/255, green: 29/255, blue: 31/255)
+    
+    static let example1 = Color(red: 245/255, green: 183/255, blue: 0/255)
+    static let example2 = Color(red: 0/255, green: 161/255, blue: 228/255)
+    static let example3 = Color(red: 220/255, green: 0/255, blue: 115/255)
+    
+}

@@ -8,7 +8,7 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $stackPath.path) {
-                ContentView()
+                Curve4View()
             }
             .environmentObject(stackPath)
             .tint(Color.accentColor)

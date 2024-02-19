@@ -63,8 +63,9 @@ struct Curve4View: View {
                         showEnd.toggle()
                     } label: {
 //                        Image(systemName: showEnd ?  "circle.circle.fill" : "circle.circle")
-                        Image(systemName: showEnd ?  "point.bottomleft.forward.to.point.topright.filled.scurvepath" : "point.bottomleft.forward.to.point.topright.scurvepath")
+                        Image(systemName: showEnd ?  "point.topleft.filled.down.to.point.bottomright.curvepath" : "point.topleft.down.to.point.bottomright.curvepath")
                             .scaleEffect(1.5)
+                            .rotation3DEffect(.degrees(180), axis: (0,1,0))
                             .tint(colorScheme == .dark ? .white : .black)
                     }
                                         

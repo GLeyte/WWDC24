@@ -10,6 +10,10 @@ import LaTeXSwiftUI
 
 struct Curve3View: View {
     
+    @StateObject private var audioPlayer = AudioPlayerManager()
+    
+    @State private var hasSound = true
+    
     @Environment(\.colorScheme) var colorScheme
     
     let screenWidth = UIScreen.main.bounds.width*0.9
@@ -112,22 +116,67 @@ struct Curve3View: View {
         }
         .toolbar {
             ToolbarItem {
-                
-                Button {
-                    showingInfo.toggle()
-                } label: {
-                    Image(systemName: "info.circle.fill")
+                HStack {
+                    Button {
+                        hasSound.toggle()
+                        if !hasSound {
+                            if audioPlayer.isPlaying {
+                                audioPlayer.stopSound()
+                            }
+                        }
+                    } label: {
+                        Image(systemName: hasSound ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        showingInfo.toggle()
+                    } label: {
+                        Image(systemName: "info.circle.fill")
+                    }
+                    .sheet(isPresented: $showingInfo, content: {
+                        Curve3Info()
+                            .presentationDetents([.medium])
+                    })
                 }
-                .sheet(isPresented: $showingInfo, content: {
-                    Curve3Info()
-                        .presentationDetents([.medium])
-                })
-                
+
             }
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .onChange(of: playA) { newValue in
+            audioPlayer.stopSound()
+        }
+        .onChange(of: playB) { newValue in
+            audioPlayer.stopSound()
+        }
+        .onChange(of: playW) { newValue in
+            audioPlayer.stopSound()
+        }
+        .onChange(of: playH) { newValue in
+            audioPlayer.stopSound()
+        }
         .onReceive(timerData.timer) { _ in
+            
+            if hasSound && !audioPlayer.isPlaying {
+                
+                if playA && playB && playW && playH {
+                    audioPlayer.playSound(sound: .ABN, type: "mp3")
+                } else if (playH && playW) || (playB && playW) || (playH && playB) {
+                    audioPlayer.playSound(sound: .Epic, type: "mp3")
+                } else if playA && playB{
+                    audioPlayer.playSound(sound: .Double, type: "mp3")
+                } else if playA {
+                    audioPlayer.playSound(sound: .A, type: "mp3")
+                } else if playB {
+                    audioPlayer.playSound(sound: .B, type: "mp3")
+                } else if playW {
+                    audioPlayer.playSound(sound: .B, type: "mp3")
+                } else if playH {
+                    audioPlayer.playSound(sound: .B, type: "mp3")
+                }
+            }
             
             if playA {
                 
@@ -190,6 +239,9 @@ struct Curve3View: View {
                 }
             }
             
+        }
+        .onDisappear {
+            audioPlayer.stopSound()
         }
     }
     
@@ -260,5 +312,5 @@ struct Curve3Info: View {
 
 
 #Preview {
-    Curve3Info()
+    Curve3View()
 }

@@ -28,7 +28,7 @@ struct Onboarding2: View {
                         .font(.title3)
                         .bold()
                     
-                    latexText("This is the type of equation we are first introduced to, y = f(x). Using the values of x and y we have the points (x, y), and can create various shapes. However, some shapes are difficult, or even impossible, to sketch in this way.")
+                    latexText("Is in this situation that parametric equations come in.  They work through the parameterization of x and y in relation to a third variable t, i.e. x = f(t) and y = g(t).")
                         .fixedSize(horizontal: false, vertical: true)
                     
                     Rectangle().foregroundStyle(.clear).frame(height: 5)

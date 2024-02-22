@@ -10,6 +10,7 @@ struct MyApp: App {
             NavigationStack(path: $stackPath.path) {
                 ContentView()
             }
+            .preferredColorScheme(.dark)
             .environmentObject(stackPath)
             .tint(Color.accentColor)
         }

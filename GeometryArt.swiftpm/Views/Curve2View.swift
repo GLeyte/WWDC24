@@ -10,6 +10,12 @@ import LaTeXSwiftUI
 
 struct Curve2View: View {
     
+    @StateObject private var audioPlayer = AudioPlayerManager()
+    @StateObject private var pPlayer = AudioPlayerManager()
+    @StateObject private var qPlayer = AudioPlayerManager()
+    
+    @State private var hasSound = true
+        
     @Environment(\.colorScheme) var colorScheme
     
     let screenWidth = UIScreen.main.bounds.width*0.9
@@ -26,7 +32,7 @@ struct Curve2View: View {
     @State private var colorEnd: Color = Color.example3
     
     @State private var showingInfo = false
-        
+    
     @State var directionRightA = true
     @State var playA = true
     
@@ -41,14 +47,12 @@ struct Curve2View: View {
     
     @State var directionRightQ = true
     @State var playQ = false
-    
-    @State var playR = false
-    
+        
     @StateObject private var timerData = TimerData()
     
     var body: some View {
         VStack(spacing: 24) {
-                  
+            
             Curve2(a: $a, b: $b, n: $n, p: $p, q: $q, r: $r, precision: .constant(0.01), colorInit: $colorInit, colorEnd: $colorEnd)
             
             HStack(spacing:16) {
@@ -65,9 +69,11 @@ struct Curve2View: View {
                 returnView("a", a, 1)
                 returnView("b", b, 2)
                 returnView("n", n, 2)
-                returnView("p", CGFloat(p)/10, 1)
-                returnView("q", CGFloat(q)/10, 1)
+                returnView("p", CGFloat(p)/10, 0)
+                returnView("q", CGFloat(q)/10, 0)
             }
+            
+            // -10 -0.38 -0.54 -2.45 10 10
             
             VStack(spacing: 16) {
                 
@@ -132,18 +138,40 @@ struct Curve2View: View {
         }
         .toolbar {
             ToolbarItem {
-                
-                Button {
-                    showingInfo.toggle()
-                } label: {
-                    Image(systemName: "info.circle.fill")
+                HStack{
+                    
+                    Button {
+                        hasSound.toggle()
+                        if !hasSound {
+                            if audioPlayer.isPlaying {
+                                audioPlayer.stopSound()
+                            }
+                            if pPlayer.isPlaying  {
+                                pPlayer.stopSound()
+                            }
+                            if qPlayer.isPlaying {
+                                qPlayer.stopSound()
+                            }
+                        }
+                    } label: {
+                        Image(systemName: hasSound ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        showingInfo.toggle()
+                    } label: {
+                        Image(systemName: "info.circle.fill")
+                    }
+                    .sheet(isPresented: $showingInfo, content: {
+                        Curve2Info()
+                            .presentationDetents([.medium])
+                    })
                 }
-                .sheet(isPresented: $showingInfo, content: {
-                    Curve2Info()
-                        .presentationDetents([.medium])
-                })
-
+                
             }
+        
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -151,8 +179,31 @@ struct Curve2View: View {
             b = -0.33
             r = abs(screenWidth / (2.5 * b) / 3)
         }
+        .onChange(of: playA) { newValue in
+            audioPlayer.stopSound()
+        }
+        .onChange(of: playB) { newValue in
+            audioPlayer.stopSound()
+        }
+        .onChange(of: playN) { newValue in
+            audioPlayer.stopSound()
+        }
         .onReceive(timerData.timer) { _ in
-                        
+            
+            if hasSound && !audioPlayer.isPlaying {
+                if playA && playB && playN {
+                    audioPlayer.playSound(sound: .ABN, type: "mp3")
+                } else if (playA && playB) || (playA && playN) || (playN && playB) {
+                    audioPlayer.playSound(sound: .Double, type: "mp3")
+                } else if playA {
+                    audioPlayer.playSound(sound: .A, type: "mp3")
+                } else if playB {
+                    audioPlayer.playSound(sound: .B, type: "mp3")
+                } else if playN {
+                    audioPlayer.playSound(sound: .N, type: "mp3")
+                }
+            }
+            
             if playA {
                 
                 if directionRightA {
@@ -168,12 +219,14 @@ struct Curve2View: View {
                 }
             }
             
-            if b < -1 * limit / 40 {
+            if b <= -1 * limit / 40 {
                 r = abs(screenWidth / (2.5 * b) / 3)
+            } else if b >= -0.11 && b < -0.07 {
+                r = screenWidth / ((abs(b + 0.235))) / 15
             }
             
             if playB {
-
+                
                 if directionRightB {
                     b += 0.001
                     if b > 0 {
@@ -213,6 +266,9 @@ struct Curve2View: View {
                     p -= 2
                     if p <= 10 {
                         directionRightP = true
+                        if hasSound {
+                            pPlayer.playSound(sound: .HeartBeat, type: "mp3")
+                        }
                     }
                 }
             }
@@ -228,18 +284,26 @@ struct Curve2View: View {
                     q -= 2
                     if q <= 10 {
                         directionRightQ = true
+                        if hasSound {
+                            qPlayer.playSound(sound: .HeartBeat, type: "mp3")
+                        }
                     }
                 }
             }
         }
+        .onDisappear {
+            audioPlayer.stopSound()
+            pPlayer.stopSound()
+            qPlayer.stopSound()
+        }
     }
     
-
+    
     func returnView (_ string: String, _ valor: CGFloat, _ digits: Int) -> some View {
-
+        
         let value = "\(to2Digits(valor, digits:digits))"
-
-        return HStack(spacing: 6) {
+        
+        return HStack(spacing: 3) {
             
             LaTeX("$\(string) =$")
                 .font(.subheadline)
@@ -314,18 +378,16 @@ struct Curve2Info: View {
                     .parsingMode(.all)
                     .font(.footnote)
                 
-               
+                
             }
             
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
-
+    
 }
 
 #Preview {
-    Curve2Info()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .background(.black)
+    Curve2View()
 }

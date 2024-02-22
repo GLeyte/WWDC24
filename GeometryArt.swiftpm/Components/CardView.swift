@@ -53,7 +53,7 @@ struct CardView: View {
                                n: .constant(-2.5),
                                p: .constant(32),
                                q: .constant(44),
-                               r: .constant(width/2.5),
+                               r: .constant(width/3.2),
                                precision: .constant(0.03),
                                colorInit: .constant(Color.accentColor),
                                colorEnd: .constant(Color.accentColor))
@@ -69,6 +69,7 @@ struct CardView: View {
                                precision: .constant(0.009),
                                colorInit: .constant(Color.accentColor),
                                colorEnd: .constant(Color.accentColor))
+                        .padding(24)
 
                         bottomText(text: "Illusion torus")
                         

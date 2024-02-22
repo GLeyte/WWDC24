@@ -9,9 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var isFirstTime = UserDefaults.standard.bool(forKey: "isFirstTime")
+    
     var body: some View {
         
-        Onboarding1()
+        VStack {
+            if isFirstTime {
+                Onboarding1()
+            } else {
+                Onboarding2()
+            }
+        }
         .ignoresSafeArea()
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)

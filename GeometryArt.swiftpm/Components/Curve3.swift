@@ -72,7 +72,7 @@ struct Curve3: View {
         var points = [CGPoint]()
         for t in stride(from: lmin, to: lmax, by: precision) {
             
-            var (x, y) = curve(delta/4, t)
+            var (x, y) = curve(delta/3.2, t)
 
             x = max(min(x,delta),-delta)
             y = max(min(y,delta),-delta)

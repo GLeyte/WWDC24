@@ -19,7 +19,7 @@ struct Onboarding1: View {
             
             VStack {
                 latexText("Welcome!")
-                latexText("This is ParamatricArt")
+                latexText("This is ParametricArt")
             }
             .font(.title)
             .bold()

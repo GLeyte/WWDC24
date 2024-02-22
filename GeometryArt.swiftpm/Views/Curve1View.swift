@@ -10,6 +10,10 @@ import LaTeXSwiftUI
 
 struct Curve1View: View {
     
+    @StateObject private var audioPlayer = AudioPlayerManager()
+    
+    @State private var hasSound = true
+    
     @Environment(\.colorScheme) var colorScheme
     
     let screenWidth = UIScreen.main.bounds.width*0.9
@@ -81,22 +85,54 @@ struct Curve1View: View {
         }
         .toolbar {
             ToolbarItem {
-                
-                Button {
-                    showingInfo.toggle()
-                } label: {
-                    Image(systemName: "info.circle.fill")
+                HStack {
+                    
+                    Button {
+                        hasSound.toggle()
+                        if !hasSound {
+                            if audioPlayer.isPlaying {
+                                audioPlayer.stopSound()
+                            }
+                        }
+                    } label: {
+                        Image(systemName: hasSound ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        showingInfo.toggle()
+                    } label: {
+                        Image(systemName: "info.circle.fill")
+                    }
+                    .sheet(isPresented: $showingInfo, content: {
+                        Curve1Info()
+                            .presentationDetents([.medium])
+                    })
                 }
-                .sheet(isPresented: $showingInfo, content: {
-                    Curve1Info()
-                        .presentationDetents([.medium])
-                })
 
             }
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .onChange(of: playA) { newValue in
+            audioPlayer.stopSound()
+        }
+        .onChange(of: playB) { newValue in
+            audioPlayer.stopSound()
+        }
         .onReceive(timerData.timer) { _ in
+            
+            if hasSound && !audioPlayer.isPlaying {
+                
+                if playA && playB {
+                    audioPlayer.playSound(sound: .ABN, type: "mp3")
+                } else if playA {
+                    audioPlayer.playSound(sound: .B, type: "mp3")
+                } else if playB {
+                    audioPlayer.playSound(sound: .A, type: "mp3")
+                }
+            }
             
             if playA {
                 
@@ -129,6 +165,9 @@ struct Curve1View: View {
                 }
             }
             
+        }
+        .onDisappear {
+            audioPlayer.stopSound()
         }
     }
     
@@ -191,4 +230,8 @@ struct Curve1Info: View {
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
+}
+
+#Preview {
+    Curve1View()
 }

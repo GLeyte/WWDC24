@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var isFirstTime = UserDefaults.standard.bool(forKey: "isFirstTime")
+    @AppStorage("isOnboarding") var isOnboarding = true
+
     
     var body: some View {
-        
         VStack {
-            if isFirstTime {
+            if isOnboarding {
                 Onboarding1()
             } else {
-                Onboarding2()
+                ParametricCurvesView()
             }
         }
         .ignoresSafeArea()

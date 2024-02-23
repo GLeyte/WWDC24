@@ -12,9 +12,7 @@ struct ParametricCurvesView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var stackPath: PathType
     @State private var animation = true
-    
-    @State var selectedPage = 0
-    
+        
     var body: some View {
         
         VStack(spacing:32) {
@@ -22,9 +20,7 @@ struct ParametricCurvesView: View {
             latexText("Choose your curve!")
                 .font(.title)
                 .bold()
-            
-            // ALL TOGETHER
-            
+                        
             GeometryReader { geometry in
                 
                 let width = geometry.size.width
@@ -32,7 +28,6 @@ struct ParametricCurvesView: View {
                 ScrollView {
                     
                     VStack(spacing:24) {
-                        
                         
                         Button {
                             stackPath.path.append(Views.curve4)
@@ -66,12 +61,23 @@ struct ParametricCurvesView: View {
                                 .frame(height: width * 0.7)
                         }
                         
-                        
                     }
                 }
             }
             
+            NavigationLink(value: Views.onboarding2) {
+                latexText("Review parametric equations")
+                    .padding()
+                    .foregroundStyle(.black)
+                    .background {
+                        RoundedRectangle(cornerRadius: 16)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .frame(maxWidth: .infinity)
+            }
+            
         }
+        .navigationBarBackButtonHidden(true)
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear {

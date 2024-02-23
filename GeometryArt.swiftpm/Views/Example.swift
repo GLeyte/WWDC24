@@ -11,6 +11,8 @@ import LaTeXSwiftUI
 
 struct Example: View {
     
+    @AppStorage("isOnboarding") var isOnboarding: Bool?
+    
     @State var animation = false
     @EnvironmentObject private var stackPath: PathType
         
@@ -85,10 +87,16 @@ struct Example: View {
             Spacer()
             
             Button {
-                stackPath.path.append(Views.parametrics)
                 animation = false
+                if isOnboarding ?? true {
+                    stackPath.path.append(Views.parametrics)
+                    isOnboarding = false
+                } else {
+                    stackPath.path.removeAll()
+                }
+                
             } label: {
-                latexText("Now it's time to play!")
+                latexText("Let's play!")
                     .padding()
                     .foregroundStyle(.black)
                     .background {
@@ -171,7 +179,7 @@ struct CircleExample: View {
                 PlayButton(variavel: $playT)
                     .font(.title2)
                     .foregroundStyle(colorScheme == .dark ? .white : .black)
-                    .position(CGPoint(x: width, y: 0))
+                    .position(CGPoint(x: width, y: width))
                 
                 LaTeX("$\\alpha = $ \( Int(t))$^{\\circ}$")
                     .id(t)

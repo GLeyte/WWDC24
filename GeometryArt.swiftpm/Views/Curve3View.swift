@@ -90,9 +90,9 @@ struct Curve3View: View {
                     
                 }
                 
-                // Change l
+                // Change w
                 HStack {
-                    LaTeX("$l$")
+                    LaTeX("$w$")
                     
                     Slider(value: $w, in: -limit...limit)
                         .tint(colorScheme == .dark ? .white : .black)

@@ -8,19 +8,19 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "GeometryArt",
+    name: "ParametricArt",
     platforms: [
         .iOS("16.0")
     ],
     products: [
         .iOSApplication(
-            name: "GeometryArt",
+            name: "ParametricArt",
             targets: ["AppModule"],
             bundleIdentifier: "me.Leite.Gabriel.GeometryArt",
             teamIdentifier: "KK45GWU9MA",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .movieReel),
+            appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.orange),
             supportedDeviceFamilies: [
                 .pad,
@@ -32,12 +32,18 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/colinc86/LaTeXSwiftUI.git", .branch("main"))
+        .package(path: "../HTMLEntities"),
+        .package(path: "../MathJaxSwift"),
+        .package(path: "../SVGView"),
+        .package(path: "../LaTeXSwiftUI")
     ],
     targets: [
         .executableTarget(
             name: "AppModule",
             dependencies: [
+                .product(name: "HTMLEntities", package: "htmlentities"),
+                .product(name: "MathJaxSwift", package: "mathjaxswift"),
+                .product(name: "SVGView", package: "svgview"),
                 .product(name: "LaTeXSwiftUI", package: "latexswiftui")
             ],
             path: ".",

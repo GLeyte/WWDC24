@@ -339,11 +339,11 @@ struct Curve2Info: View {
             
             VStack {
                 
-                LaTeX("r=-1/(7.5 \\cdot b) \\: \\text{    para todo } \\: b \\leq -0.25 ")
+                LaTeX("r=-1/(7.5 \\cdot b) \\: \\text{    for all } \\: b \\leq -0.25 ")
                     .parsingMode(.all)
                     .font(.subheadline)
                 
-                LaTeX("r=8/15 \\: \\: \\: \\text{    para todo } \\: b \\gt -0.25 ")
+                LaTeX("r=8/15 \\: \\: \\: \\text{    fol all } \\: b \\gt -0.25 ")
                     .parsingMode(.all)
                     .font(.subheadline)
             }

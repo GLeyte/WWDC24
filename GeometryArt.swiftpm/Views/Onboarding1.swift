@@ -10,6 +10,8 @@ import LaTeXSwiftUI
 
 struct Onboarding1: View {
     
+    @EnvironmentObject private var stackPath: PathType
+    
     @Environment(\.colorScheme) var colorScheme
     let accentColor = Color(red: 57/255, green: 255/255, blue: 20/255)
     
@@ -34,7 +36,6 @@ struct Onboarding1: View {
             Spacer()
             
             NavigationLink(value: Views.onboarding2) {
-                
                 latexText("Let's explore!")
                     .padding()
                     .foregroundStyle(.black)
@@ -44,7 +45,6 @@ struct Onboarding1: View {
                             .foregroundStyle(accentColor)
                     }
                     .frame(maxWidth: .infinity)
-                
             }
             
         }

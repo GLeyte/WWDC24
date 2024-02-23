@@ -31,7 +31,7 @@ class AudioPlayerManager: ObservableObject {
         case .A:
             playerNode.volume = 0.6
         case .ABN:
-            playerNode.volume = 0.6
+            playerNode.volume = 0.5
         case .B:
             playerNode.volume = 0.9
         case .Double:

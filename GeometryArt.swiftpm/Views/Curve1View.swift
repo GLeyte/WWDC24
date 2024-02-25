@@ -213,7 +213,7 @@ struct Curve1Info: View {
             
             VStack(alignment: .leading, spacing: 8) {
                 
-                LaTeX("r \\longrightarrow \\text{Direct relationship with the } \\textbf{value of x and y}")
+                LaTeX("r \\longrightarrow \\text{Direct relationship with the } \\textbf{values of x and y}")
                     .parsingMode(.all)
                     .font(.footnote)
                 

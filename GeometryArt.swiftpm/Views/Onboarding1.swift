@@ -29,9 +29,9 @@ struct Onboarding1: View {
             
             onboardingTopic(icon: "person", title: "Author", text: "This application was designed and developed by Gabriel Leite.")
             
-            onboardingTopic(icon: "text.book.closed", title: "Learn", text: "Firstly, the concepts of parametric equations are presented, since all the algorithmic art will be generated from this type of equation. Next, each generative artwork is briefly explained.")
+            onboardingTopic(icon: "text.book.closed", title: "Learn", text: "Firstly, the concepts of parametric equations are presented since all the algorithmic art in this app will be generated from this type of equation. Next, each generative artwork is briefly explained.")
             
-            onboardingTopic(icon: "play", title: "Play", text: "Each generative artwork has different equations, which allow for countless combinations of parameters, generating fun curves and animations. Play all you want!")
+            onboardingTopic(icon: "play", title: "Play", text: "Each generative artwork has different equations, which allow for countless parameter combinations, pawning captivating curves and fluid animations. Play all you want!")
             
             Spacer()
             

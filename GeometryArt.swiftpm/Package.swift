@@ -28,7 +28,8 @@ let package = Package(
             ],
             supportedInterfaceOrientations: [
                 .portrait
-            ]
+            ],
+            appCategory: .education
         )
     ],
     dependencies: [

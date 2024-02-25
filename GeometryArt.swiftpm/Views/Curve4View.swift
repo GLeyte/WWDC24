@@ -285,7 +285,7 @@ struct Curve4Info: View {
                     .parsingMode(.onlyEquations)
                     .font(.subheadline)
                 
-                LaTeX("$y(t) = sin(t+b)\\cdot cos(\\beta \\cdot a\\cdot t + b)$")
+                LaTeX("$y(t) = sin(t+b)\\cdot cos(\\beta \\cdot a\\cdot t)$")
                     .parsingMode(.onlyEquations)
                     .font(.subheadline)
                 

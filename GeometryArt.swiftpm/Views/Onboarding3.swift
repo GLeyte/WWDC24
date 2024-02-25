@@ -25,7 +25,7 @@ struct Onboarding3: View {
             
             VStack(alignment: .leading, spacing:16){
                 
-                latexText("This is the type of equation we are first introduced to, y = f(x). Using the values of x and y we have the points (x, y), and can create various shapes. However, some shapes are difficult, or even impossible, to sketch in this way.")
+                latexText("Instead of just saying y = f(x), they can control both x and y simultaneously, using a third variable, t, that is, x = f(t) and y = g(t),  leading to more intricate and dynamic shapes.")
                     .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                 
                 Rectangle().foregroundStyle(.clear).frame(height: 5)

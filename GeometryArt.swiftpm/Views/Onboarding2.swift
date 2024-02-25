@@ -28,7 +28,7 @@ struct Onboarding2: View {
                         .font(.title3)
                         .bold()
                     
-                    latexText("Is in this situation that parametric equations come in.  They work through the parameterization of x and y in relation to a third variable t, i.e. x = f(t) and y = g(t).")
+                    latexText("Think back to school equations y = f(x), where you drew curves using points (x, y). These equations are good at creating shapes like lines and circles. But what about shapes like spirals and elegant flowers? That's where parametric equations come in.")
                         .fixedSize(horizontal: false, vertical: true)
                     
                     Rectangle().foregroundStyle(.clear).frame(height: 5)

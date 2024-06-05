@@ -34,7 +34,7 @@ struct ParametricCurvesView: View {
                             animation = false
                         } label: {
                             CardView(curve: .curve4, hasAnimation: $animation)
-                                .frame(height: width * 0.7)
+                                .frame(height: width * 0.65)
                         }
                         
                         Button {
@@ -42,7 +42,7 @@ struct ParametricCurvesView: View {
                             animation = false
                         } label: {
                             CardView(curve: .curve2, hasAnimation: $animation)
-                                .frame(height: width * 0.7)
+                                .frame(height: width * 0.65)
                         }
                         
                         Button {
@@ -50,7 +50,7 @@ struct ParametricCurvesView: View {
                             animation = false
                         } label: {
                             CardView(curve: .curve1, hasAnimation: $animation)
-                                .frame(height: width * 0.7)
+                                .frame(height: width * 0.65)
                         }
                         
                         Button {
@@ -58,7 +58,7 @@ struct ParametricCurvesView: View {
                             animation = false
                         } label: {
                             CardView(curve: .curve3, hasAnimation: $animation)
-                                .frame(height: width * 0.7)
+                                .frame(height: width * 0.65)
                         }
                         
                     }
@@ -77,7 +77,6 @@ struct ParametricCurvesView: View {
             }
             
         }
-        .navigationBarBackButtonHidden(true)
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .onAppear {
